@@ -1,4 +1,3 @@
-document.documentElement.classList.add("js");
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 window.scrollTo(0, 0);
 // Навыки: уровень в процентах, шкала из 10 сегментов
@@ -34,6 +33,7 @@ const tick = () => clock.textContent = new Date().toLocaleTimeString("ru-RU", { 
 tick(); setInterval(tick, 30000);
 
 // Анимации: появление блоков, счётчики процентов, подсветка за курсором
+try {
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const count = el => {
   const n = +el.dataset.n; if (still) return;
@@ -42,6 +42,7 @@ const count = el => {
 };
 const items = document.querySelectorAll(".win, .tags li, h2");
 items.forEach(el => el.style.setProperty("--i", [...el.parentNode.children].indexOf(el) % 6));
+if (!("IntersectionObserver" in window)) throw new Error("нет IntersectionObserver");
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (!e.isIntersecting) return;
   e.target.classList.add("in"); e.target.querySelectorAll("[data-n]").forEach(count); io.unobserve(e.target);
@@ -53,3 +54,8 @@ hero.addEventListener("pointermove", e => {
   const r = hero.getBoundingClientRect();
   hero.style.setProperty("--mx", e.clientX - r.left + "px"); hero.style.setProperty("--my", e.clientY - r.top + "px");
 });
+document.documentElement.classList.add("js"); // прячем блоки только когда всё подготовлено
+} catch (err) {
+  console.error("Анимации отключены:", err);
+  document.documentElement.classList.remove("js");
+}
