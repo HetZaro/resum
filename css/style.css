@@ -822,3 +822,11 @@ body::before {
     }
   }
 }
+.js h2 { clip-path: none; transform: translateX(-20px); }
+.js .in,
+.js .tags li.in { clip-path: none; }
+.js h2.in { animation: wipe 0.9s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--i, 0) * 90ms) both; }
+@keyframes wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(-30% -100% -30% -30%); }
+}
