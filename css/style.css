@@ -234,6 +234,9 @@ h3 {
 .hero__text {
   position: relative;
 }
+.hero__text .meta{
+  color: #1d1d1d;
+}
 h1 {
   position: relative;
   font-size: clamp(28px, 4.8vw, 58px);
